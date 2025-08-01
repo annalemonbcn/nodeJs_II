@@ -1,6 +1,6 @@
-import { authServices } from "../services/sessions.services.js";
+import { sessionDBManager } from "../services/sessions.services.js";
 
-const { handleSuccessfulRegister, handleSuccessfulLogin } = authServices;
+const SessionService = new sessionDBManager();
 
 const registerController = async (req, res, next) => {
   passport.authenticate(
@@ -14,7 +14,7 @@ const registerController = async (req, res, next) => {
           .json({ status: "error", code: 400, message: info.message });
       }
 
-      const result = handleSuccessfulRegister(user);
+      const result = SessionService.handleSuccessfulRegister(user);
 
       return res.status(201).json({
         status: "success",
@@ -38,7 +38,7 @@ const loginController = (req, res, next) => {
           .json({ status: "error", code: 401, message: info.message });
       }
 
-      const token = handleSuccessfulLogin(user);
+      const token = SessionService.handleSuccessfulLogin(user);
 
       return res.status(200).json({
         status: "success",
