@@ -1,9 +1,9 @@
-import { productDBManager } from "../dao/productDBManager.js";
+import { ProductServiceWithDAO } from "../dao/productDBManager.js";
 
-const ProductService = new productDBManager();
+// const ProductService = new productDBManager();
 
 const getAllProductsController = async (req, res) => {
-  const result = await ProductService.getAllProducts(req.query);
+  const result = await ProductServiceWithDAO.getAllProducts(req.query);
 
   res.send({
     status: "success",
@@ -13,7 +13,7 @@ const getAllProductsController = async (req, res) => {
 
 const getProductByIDController = async (req, res) => {
   try {
-    const result = await ProductService.getProductByID(req.params.pid);
+    const result = await ProductServiceWithDAO.getProductByID(req.params.pid);
     res.send({
       status: "success",
       payload: result,
@@ -35,7 +35,7 @@ const createProductController = async (req, res) => {
   }
 
   try {
-    const result = await ProductService.createProduct(req.body);
+    const result = await ProductServiceWithDAO.createProduct(req.body);
     res.send({
       status: "success",
       payload: result,
@@ -57,7 +57,10 @@ const updateProductController = async (req, res) => {
   }
 
   try {
-    const result = await ProductService.updateProduct(req.params.pid, req.body);
+    const result = await ProductServiceWithDAO.updateProduct(
+      req.params.pid,
+      req.body
+    );
     res.send({
       status: "success",
       payload: result,
@@ -72,7 +75,7 @@ const updateProductController = async (req, res) => {
 
 const deleteProductController = async (req, res) => {
   try {
-    const result = await ProductService.deleteProduct(req.params.pid);
+    const result = await ProductServiceWithDAO.deleteProduct(req.params.pid);
     res.send({
       status: "success",
       payload: result,
