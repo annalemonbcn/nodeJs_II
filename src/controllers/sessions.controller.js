@@ -1,3 +1,4 @@
+import passport from "passport";
 import { sessionDBManager } from "../services/sessionDBManager.js";
 
 const SessionService = new sessionDBManager();

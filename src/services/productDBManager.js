@@ -26,5 +26,4 @@ class productDBManager {
   }
 }
 
-export { productDBManager };
 export const ProductServiceWithDAO = new productDBManager(new productsDAO());

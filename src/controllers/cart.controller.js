@@ -1,12 +1,8 @@
-import { cartDBManager } from "../services/cartDBManager.js";
-import { productDBManager } from "../services/productDBManager.js";
-
-const ProductService = new productDBManager();
-const CartService = new cartDBManager(ProductService);
+import { CartServiceWithDAO } from "../services/cartDBManager.js";
 
 const createCartController = async (req, res) => {
   try {
-    const result = await CartService.createCart();
+    const result = await CartServiceWithDAO.createCart();
     res.send({
       status: "success",
       payload: result,
@@ -21,7 +17,9 @@ const createCartController = async (req, res) => {
 
 const getCartByIdController = async (req, res) => {
   try {
-    const result = await CartService.getProductsFromCartByID(req.params.cid);
+    const result = await CartServiceWithDAO.getProductsFromCartByID(
+      req.params.cid
+    );
     res.send({
       status: "success",
       payload: result,
@@ -36,7 +34,7 @@ const getCartByIdController = async (req, res) => {
 
 const addProductToCartController = async (req, res) => {
   try {
-    const result = await CartService.addProductByID(
+    const result = await CartServiceWithDAO.addProductByID(
       req.params.cid,
       req.params.pid
     );
@@ -54,7 +52,7 @@ const addProductToCartController = async (req, res) => {
 
 const deleteProductFromCartController = async (req, res) => {
   try {
-    const result = await CartService.deleteProductByID(
+    const result = await CartServiceWithDAO.deleteProductByID(
       req.params.cid,
       req.params.pid
     );
@@ -72,7 +70,7 @@ const deleteProductFromCartController = async (req, res) => {
 
 const replaceProductsFromCartController = async (req, res) => {
   try {
-    const result = await CartService.updateAllProducts(
+    const result = await CartServiceWithDAO.updateAllProducts(
       req.params.cid,
       req.body.products
     );
@@ -90,7 +88,7 @@ const replaceProductsFromCartController = async (req, res) => {
 
 const updateProductQuantityController = async (req, res) => {
   try {
-    const result = await CartService.updateProductByID(
+    const result = await CartServiceWithDAO.updateProductByID(
       req.params.cid,
       req.params.pid,
       req.body.quantity
@@ -109,7 +107,7 @@ const updateProductQuantityController = async (req, res) => {
 
 const deleteCartController = async (req, res) => {
   try {
-    const result = await CartService.deleteAllProducts(req.params.cid);
+    const result = await CartServiceWithDAO.deleteAllProducts(req.params.cid);
     res.send({
       status: "success",
       payload: result,

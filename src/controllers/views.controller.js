@@ -1,11 +1,8 @@
-import { cartDBManager } from "../services/cartDBManager.js";
-import { productDBManager } from "../services/productDBManager.js";
-
-const ProductService = new productDBManager();
-const CartService = new cartDBManager(ProductService);
+import { CartServiceWithDAO } from "../services/cartDBManager.js";
+import { ProductServiceWithDAO } from "../services/productDBManager.js";
 
 const viewProductsController = async (req, res) => {
-  const products = await ProductService.getAllProducts(req.query);
+  const products = await ProductServiceWithDAO.getAllProducts(req.query);
 
   res.render("index", {
     title: "Productos",
@@ -23,7 +20,7 @@ const viewProductsController = async (req, res) => {
 };
 
 const viewRealTimeProductsController = async (req, res) => {
-  const products = await ProductService.getAllProducts(req.query);
+  const products = await ProductServiceWithDAO.getAllProducts(req.query);
   res.render("realTimeProducts", {
     title: "Productos",
     style: "index.css",
@@ -32,7 +29,9 @@ const viewRealTimeProductsController = async (req, res) => {
 };
 
 const viewCartController = async (req, res) => {
-  const response = await CartService.getProductsFromCartByID(req.params.cid);
+  const response = await CartServiceWithDAO.getProductsFromCartByID(
+    req.params.cid
+  );
 
   if (response.status === "error") {
     return res.render("notFound", {
