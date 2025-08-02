@@ -8,14 +8,10 @@ import {
   validateStrongPassword,
 } from "../utils/validations.js";
 import "dotenv/config";
-import userModel from "../dao/models/userModel.js";
-import { cartDBManager } from "../dao/cartDBManager.js";
-import { productDBManager } from "../dao/productDBManager.js";
+import userModel from "../db/models/userModel.js";
+import { CartServiceWithDAO } from "../services/cartDBManager.js";
 
 const SECRET = process.env.JWT_SECRET;
-
-const ProductService = new productDBManager();
-const CartService = new cartDBManager(ProductService);
 
 const startPassport = () => {
   passport.use(
@@ -45,7 +41,7 @@ const startPassport = () => {
                 "Password must be at least 8 characters, include one uppercase letter and one special character",
             });
 
-          const cart = await CartService.createCart();
+          const cart = await CartServiceWithDAO.createCart();
 
           const user = await userModel.create({
             first_name,

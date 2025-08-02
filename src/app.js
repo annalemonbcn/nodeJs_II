@@ -4,11 +4,8 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import passport from "passport";
 import { startPassport } from "./passport/config.js";
+import indexRouter from "./routes/index.js";
 
-import productRouter from "./routes/productRouter.js";
-import cartRouter from "./routes/cartRouter.js";
-import viewsRouter from "./routes/viewsRouter.js";
-import sessionsRouter from "./routes/sessionsRouter.js";
 import __dirname from "./utils/constantsUtil.js";
 
 const app = express();
@@ -40,11 +37,8 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/../views");
 app.set("view engine", "handlebars");
 
-//Routers
-app.use("/api/products", productRouter);
-app.use("/api/carts", cartRouter);
-app.use("/api/sessions", sessionsRouter);
-app.use("/", viewsRouter);
+//Router
+app.use(indexRouter);
 
 const startServer = async () => {
   await connectToDatabase();
