@@ -1,70 +1,32 @@
-import passport from "passport";
-import { sessionDBManager } from "../services/sessionDBManager.js";
-
-const SessionService = new sessionDBManager();
+import { SessionServiceWithDAO } from "../services/sessionDBManager.js";
 
 const registerController = async (req, res, next) => {
-  passport.authenticate(
-    "register",
-    { session: false },
-    async (error, user, info) => {
-      if (error) return next(error);
-      if (!user) {
-        return res
-          .status(400)
-          .json({ status: "error", code: 400, message: info.message });
-      }
+  const user = req.user;
+  const result = SessionServiceWithDAO.handleSuccessfulRegister(user);
 
-      const result = SessionService.handleSuccessfulRegister(user);
-
-      return res.status(201).json({
-        status: "success",
-        code: 201,
-        message: "User successfully created",
-        payload: result,
-      });
-    }
-  )(req, res, next);
+  return res.status(201).json({
+    status: "success",
+    code: 201,
+    message: "User successfully created",
+    payload: result,
+  });
 };
 
-const loginController = (req, res, next) => {
-  passport.authenticate(
-    "login",
-    { session: false },
-    async (error, user, info) => {
-      if (error) return next(error);
-      if (!user) {
-        return res
-          .status(401)
-          .json({ status: "error", code: 401, message: info.message });
-      }
+const loginController = async (req, res, next) => {
+  const user = req.user;
+  const token = await SessionServiceWithDAO.login(user);
 
-      const token = SessionService.handleSuccessfulLogin(user);
-
-      return res.status(200).json({
-        status: "success",
-        code: 200,
-        message: "User successfully logged in",
-        payload: { token },
-      });
-    }
-  )(req, res, next);
+  return res.status(200).json({
+    status: "success",
+    code: 200,
+    message: "User successfully logged in",
+    payload: { token },
+  });
 };
 
-const getCurrentUserController = async (req, res) => {
+const getCurrentUserController = async (req, res, next) => {
   const { _id } = req.user;
-
-  const user = await userModel
-    .findById(_id)
-    .select("-password -createdAt -updatedAt -__v");
-
-  if (!user) {
-    return res.status(404).json({
-      status: "error",
-      code: 404,
-      message: "User not found",
-    });
-  }
+  const user = await SessionServiceWithDAO.getCurrentUser(_id);
 
   res.status(200).json({
     status: "success",

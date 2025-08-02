@@ -16,4 +16,22 @@ const authenticateJwt = (req, res, next) => {
   })(req, res, next);
 };
 
-export { authenticateJwt };
+const authenticateWithCallback = (strategy) => {
+  return (req, res, next) => {
+    passport.authenticate(strategy, { session: false }, (err, user, info) => {
+      if (err) return next(err);
+
+      if (!user) {
+        return res.status(400).json({
+          status: "error",
+          message: info?.message || "Authentication failed",
+        });
+      }
+
+      req.user = user;
+      next();
+    })(req, res, next);
+  };
+};
+
+export { authenticateJwt, authenticateWithCallback };
