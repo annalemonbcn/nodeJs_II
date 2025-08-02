@@ -1,4 +1,4 @@
-import userModel from "../db/models/userModel.js";
+import userModel from "../../db/models/userModel.js";
 
 class sessionsDAO {
   async createUser(userData) {

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { sessionsDAO } from "../dao/sessionDAO.js";
 import { userDTO } from "../dto/user.dto.js";
+import { sessionsDAO } from "../dao/factory.js";
 
 const SECRET = process.env.JWT_SECRET;
 
