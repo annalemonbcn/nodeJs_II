@@ -2,7 +2,7 @@ import { SessionServiceWithDAO } from "../services/sessionDBManager.js";
 
 const registerController = async (req, res, next) => {
   const user = req.user;
-  const result = SessionServiceWithDAO.handleSuccessfulRegister(user);
+  const result = await SessionServiceWithDAO.register(user);
 
   return res.status(201).json({
     status: "success",
