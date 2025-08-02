@@ -1,4 +1,4 @@
-import { cartDAO } from "../dao/cartDAO.js";
+import { cartDAO } from "../dao/factory.js";
 import { ProductServiceWithDAO } from "./productDBManager.js";
 
 class cartDBManager {
