@@ -1,4 +1,4 @@
-import { sessionDBManager } from "../services/sessions.services.js";
+import { sessionDBManager } from "../services/sessionDBManager.js";
 
 const SessionService = new sessionDBManager();
 

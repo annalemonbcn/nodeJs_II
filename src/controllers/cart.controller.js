@@ -1,5 +1,5 @@
-import { cartDBManager } from "../dao/cartDBManager.js";
-import { productDBManager } from "../dao/productDBManager.js";
+import { cartDBManager } from "../services/cartDBManager.js";
+import { productDBManager } from "../services/productDBManager.js";
 
 const ProductService = new productDBManager();
 const CartService = new cartDBManager(ProductService);

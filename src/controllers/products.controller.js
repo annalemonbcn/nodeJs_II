@@ -1,6 +1,4 @@
-import { ProductServiceWithDAO } from "../dao/productDBManager.js";
-
-// const ProductService = new productDBManager();
+import { ProductServiceWithDAO } from "../services/productDBManager.js";
 
 const getAllProductsController = async (req, res) => {
   const result = await ProductServiceWithDAO.getAllProducts(req.query);

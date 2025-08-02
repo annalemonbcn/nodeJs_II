@@ -1,4 +1,4 @@
-import userModel from "../dao/models/userModel.js";
+import userModel from "../db/models/userModel.js";
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

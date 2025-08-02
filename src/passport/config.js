@@ -8,9 +8,9 @@ import {
   validateStrongPassword,
 } from "../utils/validations.js";
 import "dotenv/config";
-import userModel from "../dao/models/userModel.js";
-import { cartDBManager } from "../dao/cartDBManager.js";
-import { productDBManager } from "../dao/productDBManager.js";
+import userModel from "../db/models/userModel.js";
+import { cartDBManager } from "../services/cartDBManager.js";
+import { productDBManager } from "../services/productDBManager.js";
 
 const SECRET = process.env.JWT_SECRET;
 

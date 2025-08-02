@@ -17,3 +17,5 @@ router.put("/:pid", uploader.array("thumbnails", 3), updateProductController);
 router.delete("/:pid", deleteProductController);
 
 export default router;
+
+// TODO: SEGUIR 1:01:00
