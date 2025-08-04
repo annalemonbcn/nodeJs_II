@@ -28,3 +28,5 @@ class sessionDBManager {
 }
 
 export const SessionServiceWithDAO = new sessionDBManager(new sessionsDAO());
+
+// TODO: seguir 0:22:00

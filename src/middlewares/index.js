@@ -34,4 +34,28 @@ const authenticateWithCallback = (strategy) => {
   };
 };
 
-export { authenticateJwt, authenticateWithCallback };
+const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    const user = req.user;
+
+    if (!user) {
+      return res.status(401).json({
+        status: "error",
+        code: 401,
+        message: "Unauthorized",
+      });
+    }
+
+    if (!allowedRoles.includes(user.role)) {
+      return res.status(403).json({
+        status: "error",
+        code: 403,
+        message: "Forbidden: Insufficient permissions",
+      });
+    }
+
+    next();
+  };
+};
+
+export { authenticateJwt, authenticateWithCallback, authorizeRoles };
