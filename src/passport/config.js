@@ -24,7 +24,6 @@ const startPassport = () => {
       async (req, username, password, done) => {
         try {
           let { first_name, last_name, age, role } = req.body;
-
           if (!first_name || !last_name)
             return done(null, false, { message: "All fields are required" });
 
@@ -41,8 +40,6 @@ const startPassport = () => {
                 "Password must be at least 8 characters, include one uppercase letter and one special character",
             });
 
-          const cart = await CartServiceWithDAO.createCart();
-
           const user = await userModel.create({
             first_name,
             last_name,
@@ -50,8 +47,12 @@ const startPassport = () => {
             password: bcrypt.hashSync(password, 10),
             age: age ?? undefined,
             role: role && role.trim() !== "" ? role : "user",
-            cart: cart._id,
           });
+
+          const cart = await CartServiceWithDAO.createCart(user._id);
+
+          user.cart = cart._id;
+          await user.save();
 
           return done(null, user);
         } catch (error) {

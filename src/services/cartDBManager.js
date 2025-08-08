@@ -7,12 +7,16 @@ class cartDBManager {
     this.cartDao = cartDao;
   }
 
+  async assignOwner(cartId, userId) {
+    return await this.cartDao.assignCartToUser(cartId, userId);
+  }
+
   async getProductsFromCartByID(cid) {
     return await this.cartDao.getCartById(cid);
   }
 
-  async createCart() {
-    return await this.cartDao.create();
+  async createCart(userId) {
+    return await this.cartDao.create(userId);
   }
 
   async addProductByID(cid, pid) {
@@ -22,7 +26,6 @@ class cartDBManager {
   }
 
   async deleteProductByID(cid, pid) {
-    await this.productDBManager.getProductByID(pid);
     await this.cartDao.deleteProduct(cid, pid);
     return await this.getProductsFromCartByID(cid);
   }
@@ -47,6 +50,10 @@ class cartDBManager {
   async deleteAllProducts(cid) {
     await this.cartDao.deleteAllProducts(cid);
     return await this.getProductsFromCartByID(cid);
+  }
+
+  async purchaseCart(cid, userEmail) {
+    return await this.cartDao.purchase(cid, userEmail);
   }
 }
 
