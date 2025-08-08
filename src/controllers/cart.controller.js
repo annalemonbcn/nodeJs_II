@@ -120,6 +120,34 @@ const deleteCartController = async (req, res) => {
   }
 };
 
+const purchaseCartController = async (req, res) => {
+  try {
+    const { ticket, rejectedProducts } = await CartServiceWithDAO.purchaseCart(
+      req.params.cid,
+      req.user.email
+    );
+
+    if (!ticket) {
+      return res.status(400).send({
+        status: "error",
+        message:
+          "Not enough stock on one or more products. Please delete the following products from your cart and try again.",
+        rejectedProducts,
+      });
+    }
+
+    res.send({
+      status: "success",
+      payload: ticket,
+    });
+  } catch (error) {
+    res.status(400).send({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
 export {
   getCartByIdController,
   createCartController,
@@ -128,4 +156,5 @@ export {
   replaceProductsFromCartController,
   updateProductQuantityController,
   deleteCartController,
+  purchaseCartController,
 };

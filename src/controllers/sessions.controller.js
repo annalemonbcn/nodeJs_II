@@ -1,14 +1,14 @@
+import { userDTO } from "../dto/user.dto.js";
 import { SessionServiceWithDAO } from "../services/sessionDBManager.js";
 
 const registerController = async (req, res, next) => {
   const user = req.user;
-  const result = await SessionServiceWithDAO.register(user);
 
   return res.status(201).json({
     status: "success",
     code: 201,
     message: "User successfully created",
-    payload: result,
+    payload: userDTO(user),
   });
 };
 

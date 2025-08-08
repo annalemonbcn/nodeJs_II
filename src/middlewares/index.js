@@ -4,6 +4,7 @@ const basePassportAuth = (strategy, onFailure) => {
   return (req, res, next) => {
     passport.authenticate(strategy, { session: false }, (err, user, info) => {
       if (err || !user) return onFailure(req, res, info);
+
       req.user = user;
       next();
     })(req, res, next);
@@ -22,19 +23,10 @@ const authenticateWithCallback = (strategy) =>
     })
   );
 
-const authorizeRoles = (...allowedRoles) => {
-  return (req, res, next) => {
-    const user = req.user;
-
-    if (!user) {
-      return res.status(401).json({
-        status: "error",
-        code: 401,
-        message: "Unauthorized",
-      });
-    }
-
-    if (!allowedRoles.includes(user.role)) {
+const authorizeRoles =
+  (...allowedRoles) =>
+  (req, res, next) => {
+    if (!allowedRoles.includes(req.user.role)) {
       return res.status(403).json({
         status: "error",
         code: 403,
@@ -44,6 +36,5 @@ const authorizeRoles = (...allowedRoles) => {
 
     next();
   };
-};
 
 export { authenticateJwt, authenticateWithCallback, authorizeRoles };

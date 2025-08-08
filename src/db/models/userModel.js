@@ -1,32 +1,29 @@
 import mongoose from "mongoose";
-import { cartCollection } from "./cartModel.js";
-
-const usersCollection = "users";
+import { cartCollection, usersCollection } from "./index.js";
 
 const userSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
-      require: true,
+      required: true,
     },
     last_name: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     age: Number,
     cart: {
       type: mongoose.Schema.Types.ObjectId,
       ref: cartCollection,
-      require: true,
     },
     role: {
       type: String,

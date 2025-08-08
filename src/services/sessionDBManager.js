@@ -10,11 +10,6 @@ class sessionDBManager {
     this.dao = dao;
   }
 
-  async register(userData) {
-    const newUser = await this.dao.createUser(userData);
-    return userDTO(newUser);
-  }
-
   async login(user) {
     const cleanUser = userDTO(user);
     const token = jwt.sign(cleanUser, SECRET, { expiresIn: "1h" });
@@ -28,5 +23,3 @@ class sessionDBManager {
 }
 
 export const SessionServiceWithDAO = new sessionDBManager(new sessionsDAO());
-
-// TODO: seguir 0:22:00
